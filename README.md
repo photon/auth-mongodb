@@ -41,7 +41,7 @@ or for a specific version
 
 4) Configure the auth backend
 
-    'auth_backend' => '\photon\Auth\MongoBackend',
+    'auth_backend' => '\photon\Auth\MongoDBBackend',
 
 5) Create a user
 
@@ -73,7 +73,7 @@ Advanced usage
 --------------
 
 If you want to add application specific content to the user class, you just have to extends it.
-It's can allow you to change the collection name to use too.
+It's allow you to change the collection name where object are stored.
 
     class MyUser extends \photon\auth\MongoDBUser
     {
