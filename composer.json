@@ -1,0 +1,38 @@
+{
+    "name": "photon/auth-mongodb",
+    "type": "library",
+    "description": "Authentification and users for MongoDB",
+    "keywords": [
+        "photon",
+        "auth",
+        "user",
+        "mongodb"
+    ],
+    "homepage": "http://www.photon-project.com/",
+    "license": "LGPL-2.1",
+    "authors": [
+        {
+            "name": "William MARTIN",
+            "email": "william.martin@power-lan.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Community",
+            "homepage": "https://github.com/photon/auth-mongodb/blob/master/CONTRIBUTORS.md"
+        }
+    ],
+    "require": {
+        "php" : "~5.5",
+        "photon/photon": ">=1.0.0",
+        "photon/storage-mongodb-object": "~1.0",
+        "ext-mongo": ">=1.0.0"
+    },
+    "require-dev": {
+        "photon/session-mongodb": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "photon\\auth\\": "src/"
+        }
+    }
+}
