@@ -69,3 +69,26 @@ or for a specific version
 
 7) Enjoy !
 
+Advanced usage
+--------------
+
+If you want to add application specific content to the user class, you just have to extends it.
+It's can allow you to change the collection name to use too.
+
+    class MyUser extends \photon\auth\MongoDBUser
+    {
+        const collectionName = 'foobarcollection';
+
+        public function isAdmin()
+        {
+            return $this->admin;
+        }
+    }
+
+Then, you must configure your user class in the configuration file
+
+    'auth_mongodb' => array(
+        'user_class' => '\My\App\MyUser',
+    ),
+
+
