@@ -1,17 +1,25 @@
 <?php
 
 namespace photon\auth;
+use photon\http\response\RedirectToLogin;
+use photon\http\Request as PhotonRequest;
 
 class MongoDBUser extends \photon\storage\mongodb\Object
 {
     const collectionName = 'users';
     public $is_anonymous = false;
 
+    /**
+     *  Set the user login
+     */
     public function setLogin($login)
     {
         $this->login = $login;
     }
 
+    /**
+     *  Set the user password
+     */
     public function setPassword($pwd)
     {
         if (is_string($pwd) === false) {
@@ -25,6 +33,11 @@ class MongoDBUser extends \photon\storage\mongodb\Object
         $this->password = password_hash($pwd, PASSWORD_DEFAULT);
     }
 
+    /**
+     *  Verify the user password
+     *
+     * @return bool true if the password match, false otherwize
+     */
     public function verifyPassword($pwd)
     {
         if (isset($this->password) === false) {
@@ -42,6 +55,22 @@ class MongoDBUser extends \photon\storage\mongodb\Object
 
         if (password_needs_rehash($this->password, PASSWORD_DEFAULT)) {
             $this->setPassword($pwd);
+        }
+
+        return true;
+    }
+
+    /**
+     *  Precondition to ensure the user is connected and use this user storage
+     */
+    static public function connected(PhotonRequest $request)
+    {
+        if (isset($request->user) === false) {
+            return new RedirectToLogin($request);
+        }
+
+        if (is_a($request->user, __CLASS__) === false) {
+            return new RedirectToLogin($request);
         }
 
         return true;
