@@ -25,6 +25,7 @@ class MongoDBBackend
         try {
             $user_id = trim($user_id);
             $config = Conf::f('auth_mongodb', self::$defaultConfig);
+            $config = array_merge($config, self::$defaultConfig);
             $class = $config['user_class'];
             $user = new $class(array($config['user_id'] => $user_id));
         } catch(\Exception $e) {
@@ -44,6 +45,7 @@ class MongoDBBackend
     public static function authenticate($auth)
     {
         $config = Conf::f('auth_mongodb', self::$defaultConfig);
+        $config = array_merge($config, self::$defaultConfig);
 
         $user = self::loadUser($auth[$config['user_id']]);
         if (false === $user) {
