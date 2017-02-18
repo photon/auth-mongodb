@@ -17,6 +17,11 @@ class MongoDBUser extends \photon\storage\mongodb\Object
         $this->login = $login;
     }
 
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
     /**
      *  Set the user password
      */
