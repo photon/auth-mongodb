@@ -14,7 +14,7 @@ Quick start
 
 or for a specific version
 
-    composer require "photon/auth-mongodb:1.0.0"
+    composer require "photon/auth-mongodb:2.0.0"
 
 2) Define a MongoDB connection in your project configuration
 

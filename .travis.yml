@@ -1,8 +1,11 @@
 language: php
 
+sudo: required
+
 php:
-  - 5.5
   - 5.6
+  - 7.0
+  - 7.1
 
 matrix:
   fast_finish: true
@@ -11,11 +14,12 @@ services:
   - mongodb
 
 before_script:
-  - echo 'extension = "mongo.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - echo 'extension = "mongodb.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - ./scripts/travis
   - composer init --no-interaction --stability=dev
   - composer require "photon/auth-mongodb:dev-master"
+  - composer require "phpunit/phpunit:~5.0"
   - cp vendor/photon/auth-mongodb/phpunit.xml .
   
-script: phpunit -c phpunit.xml
+script: ./vendor/bin/phpunit -c phpunit.xml
 
