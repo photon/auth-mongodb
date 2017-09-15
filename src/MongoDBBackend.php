@@ -47,12 +47,26 @@ class MongoDBBackend
         $config = Conf::f('auth_mongodb', self::$defaultConfig);
         $config = array_merge($config, self::$defaultConfig);
 
-        $user = self::loadUser($auth[$config['user_id']]);
+        // Ensure login is provided
+        $key = $config['user_id'];
+        if (isset($auth[$key]) === false) {
+          return false;
+        }
+
+        // Load user
+        $user = self::loadUser($auth[$key]);
         if (false === $user) {
             return false;
         }
 
-        if ($user->verifyPassword($auth[$config['user_password']]) === false) {
+        // Ensure password is provided
+        $key = $config['user_password'];
+        if (isset($auth[$key]) === false) {
+          return false;
+        }
+
+        // Verify password
+        if ($user->verifyPassword($auth[$key]) === false) {
             return false;
         }
 
