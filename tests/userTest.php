@@ -1,6 +1,6 @@
 <?php
 
-class ObjectTest extends \photon\test\TestCase
+class UserTest extends \photon\test\TestCase
 {
     public function testCreateUser()
     {

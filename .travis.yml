@@ -17,10 +17,6 @@ services:
 before_script:
   - echo 'extension = "mongodb.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - ./scripts/travis
-  - composer init --no-interaction --stability=dev
-  - composer require "photon/auth-mongodb:dev-master"
-  - composer require "phpunit/phpunit:~5.0"
-  - cp vendor/photon/auth-mongodb/phpunit.xml .
-  
-script: ./vendor/bin/phpunit -c phpunit.xml
+  - composer install
 
+script: ./vendor/bin/phpunit -c phpunit.xml

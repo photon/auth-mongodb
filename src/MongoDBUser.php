@@ -4,6 +4,9 @@ namespace photon\auth;
 use photon\http\response\RedirectToLogin;
 use photon\http\Request as PhotonRequest;
 
+/*
+ * MongoDB storage for user
+ */
 class MongoDBUser extends \photon\storage\mongodb\Object
 {
     const collectionName = 'users';
