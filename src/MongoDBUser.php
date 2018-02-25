@@ -9,6 +9,9 @@ use photon\http\Request as PhotonRequest;
  */
 class MongoDBUser extends \photon\storage\mongodb\Object
 {
+  use MongoDB\Name,
+      MongoDB\Id;
+
     const collectionName = 'users';
     public $is_anonymous = false;
 
@@ -31,11 +34,11 @@ class MongoDBUser extends \photon\storage\mongodb\Object
     public function setPassword($pwd)
     {
         if (is_string($pwd) === false) {
-            throw new \Exception('Password is not a string');
+            throw new MongoDBException('Password is not a string');
         }
 
         if ($pwd === '') {
-            throw new \Exception('Password is empty');
+            throw new MongoDBException('Password is empty');
         }
 
         $this->password = password_hash($pwd, PASSWORD_DEFAULT);
@@ -84,4 +87,3 @@ class MongoDBUser extends \photon\storage\mongodb\Object
         return true;
     }
 }
-

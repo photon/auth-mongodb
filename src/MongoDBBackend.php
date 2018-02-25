@@ -14,7 +14,7 @@ class MongoDBBackend
     /**
      *  Load the user from the database
      *
-     * @param $user_id The unique user id 
+     * @param $user_id The unique user id
      */
     public static function loadUser($user_id)
     {
@@ -38,7 +38,7 @@ class MongoDBBackend
     /**
      *  Authenticate a existing user
      *
-     * @param $user_id The unique user id 
+     * @param $user_id The unique user id
      * @return object The user object,
      *         false if the user do not exists or the password is invalid
      */
@@ -73,4 +73,3 @@ class MongoDBBackend
         return $user;
     }
 }
-

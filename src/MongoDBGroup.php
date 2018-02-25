@@ -8,7 +8,8 @@ namespace photon\auth;
 class MongoDBGroup extends \photon\storage\mongodb\Object
 {
     use MongoDB\Name,
-        MongoDB\Users;
+        MongoDB\Users,
+        MongoDB\Id;
 
     const collectionName = 'groups';
 

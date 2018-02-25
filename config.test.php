@@ -1,8 +1,5 @@
 <?php
 
-// Enable native support of PHP 64 bits integer
-ini_set('mongo.native_long', 1);
-
 return array(
     // Create a list of DB available
     'databases' => array(
@@ -27,4 +24,11 @@ return array(
 
     // Auth
     'auth_backend' => '\Support\Auth\AuthMongoBackend',
+
+    // URLs
+    'urls' => array(
+      array('regex' => '#^/login$#',
+            'view' => array('\Dummy', 'dummy'),
+            'name' => 'login_view')
+    )
 );
