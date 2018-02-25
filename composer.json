@@ -27,7 +27,6 @@
         "photon/storage-mongodb-object": "^2.0 || ^3.0"
     },
     "require-dev": {
-        "photon/session-mongodb": "^2.0",
         "phpunit/phpunit": "^5.0"
     },
     "autoload": {
