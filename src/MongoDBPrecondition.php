@@ -19,14 +19,14 @@ class MongoDBPrecondition
 
         // Load the ACL and verify
         try {
-          $acl = new MongoDBAcl(array('name' => $name));
-          if ($acl->isAllow($request->user)) {
-            return true;
-          }
+            $acl = new MongoDBAcl(array('name' => $name));
+            if ($acl->isAllow($request->user)) {
+                return true;
+            }
         } catch (\Exception $e) {
-          return new \photon\http\response\Forbidden($request);
+            return new \photon\http\response\Forbidden($request);
         }
         
-    	  return new \photon\http\response\Forbidden($request);
+          return new \photon\http\response\Forbidden($request);
     }
 }
