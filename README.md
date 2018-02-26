@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/photon/auth-mongodb.svg?branch=master)](https://travis-ci.org/photon/auth-mongodb)
 
-MongoDB Backend for user storage in photon
+MongoDB Backend for user, group, acl storage in photon
 
 ## Quick start
 
@@ -14,7 +14,7 @@ MongoDB Backend for user storage in photon
 
 or for a specific version
 
-    composer require "photon/auth-mongodb:2.0.0"
+    composer require "photon/auth-mongodb:^2.0"
 
 2) Define a MongoDB connection in your project configuration
 
@@ -130,3 +130,17 @@ The class `MongoDBPrecondition` will load the ACL with name `adminPanel` and ens
     $acl->setName('adminPanel');
     $acl->addUser($user);
     $acl->save();
+
+### Conditional rendering in templates
+
+  You can use `MongoDBTemplateTag` in your template to test user ACL.
+
+    {acl 'adminPanel'}
+    Will be display only if the user have the adminPanel acl
+    {/acl}
+
+  The template must be declared in your configuration file
+
+    'template_tags' => array(
+        'acl' => '\photon\auth\MongoDBTemplateTag',
+    )
