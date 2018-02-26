@@ -27,6 +27,9 @@ return array(
 
     // URLs
     'urls' => array(
+      array('regex' => '#^/#',
+            'view' => array('\tests\Views\Dummy', 'dummy'),
+            'name' => 'acl_view'),
       array('regex' => '#^/login$#',
             'view' => array('\Dummy', 'dummy'),
             'name' => 'login_view')

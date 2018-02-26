@@ -35,6 +35,11 @@
             "photon\\auth\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+          "tests\\": "tests/"
+        }
+    },
     "scripts": {
         "phpunit": "phpunit",
         "phpcs": "phpcs --standard=PSR2 src tests",

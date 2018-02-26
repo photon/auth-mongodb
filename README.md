@@ -1,12 +1,12 @@
-auth-mongodb
-============
+# auth-mongodb
+
 
 [![Build Status](https://travis-ci.org/photon/auth-mongodb.svg?branch=master)](https://travis-ci.org/photon/auth-mongodb)
 
 MongoDB Backend for user storage in photon
 
-Quick start
------------
+## Quick start
+
 
 1) Add the module in your project
 
@@ -17,6 +17,8 @@ or for a specific version
     composer require "photon/auth-mongodb:2.0.0"
 
 2) Define a MongoDB connection in your project configuration
+
+  Declare your MongoBD database
 
     'databases' => array(
         'default' => array(
@@ -31,6 +33,8 @@ or for a specific version
 
 3) Enable session backend
 
+  The authentification module use a session to store user information
+
     'session_storage' => '\photon\session\storage\MongoDB',
     'session_cookie_path' => '/',
     'session_timeout' => 4 * 60 * 60,
@@ -39,11 +43,15 @@ or for a specific version
         'collection' => 'session',
     ),
 
-4) Configure the auth backend
+4) Configure the authentification backend
+
+  Configure the authentification backend to use this module
 
     'auth_backend' => '\photon\Auth\MongoDBBackend',
 
 5) Create a user
+
+  Create your first user to be able to login
 
     $user = new \photon\auth\MongoDBUser;
     $user->setLogin('jd@exemple.com');
@@ -51,6 +59,8 @@ or for a specific version
     $user->save();
 
 6) Create a login view
+
+  Add a login view in your app, the following code is the minimal one
 
     class MyViews {
 	    public function login($request, $match)
@@ -67,10 +77,17 @@ or for a specific version
         }
     }
 
+  Declare the login view in your urls.
+
+    array('regex' => '#^/login$#',
+          'view' => array('\Dummy', 'dummy'),
+          'name' => 'login_view')
+
 7) Enjoy !
 
-Advanced usage
---------------
+## Advanced usage
+
+### Custom user class
 
 If you want to add application specific content to the user class, you just have to extends it.
 It's allow you to change the collection name where object are stored.
@@ -85,10 +102,31 @@ It's allow you to change the collection name where object are stored.
         }
     }
 
-Then, you must configure your user class in the configuration file
+Then, you must configure the MongoDB auth backend to use your class. Edit your photon configuration file to add :
 
     'auth_mongodb' => array(
         'user_class' => '\My\App\MyUser',
-    ),
+    )
 
+### Protect your view with ACLs
 
+The following view `dummy` is protected by precondition.
+The class `MongoDBPrecondition` will load the ACL with name `adminPanel` and ensure the user can access to this view, otherwize a 403 will be generated.
+
+    class Dummy
+    {
+      public $dummy_precond = array(
+      '\photon\auth\MongoDBPrecondition::adminPanel'
+      );
+      public function dummy($request, $match)
+      {
+        return new \photon\http\response\NoContent;
+      }
+    }
+
+  The ACL can be created with the following code
+
+    $acl = new \photon\auth\MongoDBAcl;
+    $acl->setName('adminPanel');
+    $acl->addUser($user);
+    $acl->save();
