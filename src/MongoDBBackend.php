@@ -1,6 +1,7 @@
 <?php
 
 namespace photon\auth;
+
 use \photon\config\Container as Conf;
 
 class MongoDBBackend
@@ -28,7 +29,7 @@ class MongoDBBackend
             $config = array_merge(self::$defaultConfig, $config);
             $class = $config['user_class'];
             $user = new $class(array($config['user_id'] => $user_id));
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 
@@ -50,7 +51,7 @@ class MongoDBBackend
         // Ensure login is provided
         $key = $config['user_id'];
         if (isset($auth[$key]) === false) {
-          return false;
+            return false;
         }
 
         // Load user
@@ -62,7 +63,7 @@ class MongoDBBackend
         // Ensure password is provided
         $key = $config['user_password'];
         if (isset($auth[$key]) === false) {
-          return false;
+            return false;
         }
 
         // Verify password
@@ -72,12 +73,12 @@ class MongoDBBackend
 
         // Ensure the user is not blocked
         if ($user->isBlocked()) {
-          return false;
+            return false;
         }
 
         // Ensure the user is not expired
         if ($user->isExpired()) {
-          return false;
+            return false;
         }
         
         return $user;

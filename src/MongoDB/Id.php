@@ -2,13 +2,14 @@
 
 namespace photon\auth\MongoDB;
 
-trait Id {
+trait Id
+{
 
   /**
    *  Get the object id
    */
-  public function getId()
-  {
-      return $this->_id;
-  }
+    public function getId()
+    {
+        return $this->_id;
+    }
 }

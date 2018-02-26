@@ -30,18 +30,18 @@ class MongoDBAcl extends \photon\storage\mongodb\Object
     public function isAllow(MongoDBUser $user)
     {
       // Search in user list
-      if ($this->containsUser($user)) {
-        return true;
-      }
+        if ($this->containsUser($user)) {
+            return true;
+        }
 
       // Search in group list
-      foreach ($this->groups as $id) {
-        $group = new MongoDBGroup(array('_id' => $id));
-        if ($group->containsUser($user)) {
-          return true;
+        foreach ($this->groups as $id) {
+            $group = new MongoDBGroup(array('_id' => $id));
+            if ($group->containsUser($user)) {
+                return true;
+            }
         }
-      }
 
-      return false;
+        return false;
     }
 }

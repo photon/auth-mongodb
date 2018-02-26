@@ -1,6 +1,7 @@
 <?php
 
 namespace photon\auth;
+
 use photon\http\response\RedirectToLogin;
 use photon\http\Request as PhotonRequest;
 use DateTime;
@@ -10,7 +11,7 @@ use DateTime;
  */
 class MongoDBUser extends \photon\storage\mongodb\Object
 {
-  use MongoDB\Name,
+    use MongoDB\Name,
       MongoDB\Id;
 
     const collectionName = 'users';
@@ -77,7 +78,7 @@ class MongoDBUser extends \photon\storage\mongodb\Object
      */
     public function block()
     {
-      $this->block = true;
+        $this->block = true;
     }
 
     /**
@@ -85,7 +86,7 @@ class MongoDBUser extends \photon\storage\mongodb\Object
      */
     public function unblock()
     {
-      $this->block = false;
+        $this->block = false;
     }
 
     /**
@@ -93,11 +94,11 @@ class MongoDBUser extends \photon\storage\mongodb\Object
      */
     public function isBlocked()
     {
-      if (isset($this->block)) {
-        return $this->block;
-      }
+        if (isset($this->block)) {
+            return $this->block;
+        }
 
-      return false;
+        return false;
     }
 
     /**
@@ -105,7 +106,7 @@ class MongoDBUser extends \photon\storage\mongodb\Object
      */
     public function setExpirationDate(DateTime $limit)
     {
-      $this->expiration = new \MongoDB\BSON\UTCDateTime($limit->getTimestamp() * 1000);
+        $this->expiration = new \MongoDB\BSON\UTCDateTime($limit->getTimestamp() * 1000);
     }
 
     /**
@@ -113,7 +114,7 @@ class MongoDBUser extends \photon\storage\mongodb\Object
      */
     public function clearExpirationDate()
     {
-      $this->expiration = null;
+        $this->expiration = null;
     }
 
     /**
@@ -121,11 +122,11 @@ class MongoDBUser extends \photon\storage\mongodb\Object
      */
     public function getExpirationDate()
     {
-      if (isset($this->expiration) && $this->expiration !== null) {
-        return $this->expiration->toDateTime();
-      }
+        if (isset($this->expiration) && $this->expiration !== null) {
+            return $this->expiration->toDateTime();
+        }
 
-      return null;
+        return null;
     }
 
     /**
@@ -133,20 +134,20 @@ class MongoDBUser extends \photon\storage\mongodb\Object
      */
     public function isExpired()
     {
-      $expiration = $this->getExpirationDate();
-      if ($expiration === null) {
-        return false;
-      }
+        $expiration = $this->getExpirationDate();
+        if ($expiration === null) {
+            return false;
+        }
 
-      $now = new DateTime("now");
+        $now = new DateTime("now");
 
-      return ($now > $expiration);
+        return ($now > $expiration);
     }
 
     /**
      *  Precondition to ensure the user is connected and use this user storage
      */
-    static public function connected(PhotonRequest $request)
+    public static function connected(PhotonRequest $request)
     {
         if (isset($request->user) === false) {
             return new RedirectToLogin($request);
