@@ -3,6 +3,7 @@
 namespace photon\auth;
 use photon\http\response\RedirectToLogin;
 use photon\http\Request as PhotonRequest;
+use DateTime;
 
 /*
  * MongoDB storage for user
@@ -69,6 +70,77 @@ class MongoDBUser extends \photon\storage\mongodb\Object
         }
 
         return true;
+    }
+
+    /**
+     *  Block the user account (disable login)
+     */
+    public function block()
+    {
+      $this->block = true;
+    }
+
+    /**
+     *  Unblock the user account (enable login)
+     */
+    public function unblock()
+    {
+      $this->block = false;
+    }
+
+    /**
+     *  Test if an account is blocked
+     */
+    public function isBlocked()
+    {
+      if (isset($this->block)) {
+        return $this->block;
+      }
+
+      return false;
+    }
+
+    /**
+     *  Set an expiration date on the account
+     */
+    public function setExpirationDate(DateTime $limit)
+    {
+      $this->expiration = new \MongoDB\BSON\UTCDateTime($limit->getTimestamp() * 1000);
+    }
+
+    /**
+     *  Remove the expiration date on the account
+     */
+    public function clearExpirationDate()
+    {
+      $this->expiration = null;
+    }
+
+    /**
+     *  Get the current expiration date on the account
+     */
+    public function getExpirationDate()
+    {
+      if (isset($this->expiration) && $this->expiration !== null) {
+        return $this->expiration->toDateTime();
+      }
+
+      return null;
+    }
+
+    /**
+     *  Test if an account have expired
+     */
+    public function isExpired()
+    {
+      $expiration = $this->getExpirationDate();
+      if ($expiration === null) {
+        return false;
+      }
+
+      $now = new DateTime("now");
+
+      return ($now > $expiration);
     }
 
     /**

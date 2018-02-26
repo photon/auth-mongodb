@@ -70,6 +70,16 @@ class MongoDBBackend
             return false;
         }
 
+        // Ensure the user is not blocked
+        if ($user->isBlocked()) {
+          return false;
+        }
+
+        // Ensure the user is not expired
+        if ($user->isExpired()) {
+          return false;
+        }
+        
         return $user;
     }
 }

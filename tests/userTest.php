@@ -9,7 +9,7 @@ class UserTest extends \photon\test\TestCase
     $db = \photon\db\Connection::get('default');
     $db->drop();
   }
-  
+
   public function testCreateUser()
   {
     $user = new \photon\auth\MongoDBUser;
@@ -22,6 +22,8 @@ class UserTest extends \photon\test\TestCase
 
     $user->save();
     $this->assertNotEquals(null, $user->getId());
+    $this->assertEquals(false, $user->isBlocked());
+    $this->assertEquals(false, $user->isExpired());
   }
 
   public function testVerifyPasswordUser()
@@ -75,5 +77,39 @@ class UserTest extends \photon\test\TestCase
     $req = \photon\test\HTTP::baseRequest();
     $req->user = 'JD';
     $this->assertNotEquals(true, \photon\auth\MongoDBUser::connected($req));
+  }
+
+  public function testExpiredUser()
+  {
+    $user = new \photon\auth\MongoDBUser;
+    $user->setLogin('jd@exemple.com');
+    $user->setPassword('strong');
+    $user->save();
+    $this->assertEquals(false, $user->isExpired());
+
+    $user->setExpirationDate(new DateTime('tomorrow'));
+    $this->assertEquals(false, $user->isExpired());
+
+    $user->setExpirationDate(new DateTime('yesterday'));
+    $this->assertEquals(true, $user->isExpired());
+
+    $user->clearExpirationDate();
+    $this->assertEquals(false, $user->isExpired());
+    $this->assertEquals(null, $user->getExpirationDate());
+  }
+
+  public function testBlockedUser()
+  {
+    $user = new \photon\auth\MongoDBUser;
+    $user->setLogin('jd@exemple.com');
+    $user->setPassword('strong');
+    $user->save();
+    $this->assertEquals(false, $user->isBlocked());
+
+    $user->block();
+    $this->assertEquals(true, $user->isBlocked());
+
+    $user->unblock();
+    $this->assertEquals(false, $user->isBlocked());
   }
 }
