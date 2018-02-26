@@ -11,4 +11,9 @@ class Dummy
     {
         return new \photon\http\response\NoContent;
     }
+
+    public function template($request, $match)
+    {
+        return \photon\shortcuts\Template::RenderToResponse('a.html', array(), $request);
+    }
 }

@@ -1,6 +1,9 @@
 <?php
 
 return array(
+    'debug' => true,
+    'tmp_folder' => sys_get_temp_dir(),
+
     // Create a list of DB available
     'databases' => array(
         'default' => array(
@@ -27,11 +30,24 @@ return array(
 
     // URLs
     'urls' => array(
-      array('regex' => '#^/#',
+      array('regex' => '#^/$#',
             'view' => array('\tests\Views\Dummy', 'dummy'),
             'name' => 'acl_view'),
+
+      array('regex' => '#^/template$#',
+            'view' => array('\tests\Views\Dummy', 'template'),
+            'name' => 'acl_view'),
+
       array('regex' => '#^/login$#',
             'view' => array('\Dummy', 'dummy'),
             'name' => 'login_view')
-    )
+    ),
+
+    // Template
+    'template_folders' => array(
+        __DIR__ .'/tests/templates',
+    ),
+    'template_tags' => array(
+        'acl' => '\photon\auth\MongoDBTemplateTag',
+    ),
 );
