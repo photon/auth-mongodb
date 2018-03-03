@@ -12,6 +12,16 @@ class AclTest extends \photon\test\TestCase
         $db->drop();
     }
 
+    public function testBatchCreateAcl()
+    {
+        $name = array('cortex', 'minus');
+        \photon\auth\MongoDBAcl::ensureExists($name);  // Create
+        $this->assertEquals(2, \photon\auth\MongoDBAcl::count());
+
+        \photon\auth\MongoDBAcl::ensureExists($name);  // Must fo nothing
+        $this->assertEquals(2, \photon\auth\MongoDBAcl::count());
+    }
+
     public function testCreateAcl()
     {
       // Users

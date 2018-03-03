@@ -44,4 +44,20 @@ class MongoDBAcl extends \photon\storage\mongodb\Object
 
         return false;
     }
+
+    /*
+     *  Helper to batch create ACLs
+     */
+    public static function ensureExists(array $names)
+    {
+        foreach ($names as $name) {
+            try {
+                $acl = new MongoDBAcl(array('name' => $name));
+            } catch (\Exception $e) {
+                $acl = new MongoDBAcl;
+                $acl->setName($name);
+                $acl->save();
+            }
+        }
+    }
 }
