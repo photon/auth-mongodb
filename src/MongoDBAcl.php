@@ -8,7 +8,7 @@ use photon\auth\MongoDBGroup;
 /*
  * MongoDB storage for ACL
  */
-class MongoDBAcl extends \photon\storage\mongodb\Object
+class MongoDBAcl extends \photon\storage\mongodb\Obj
 {
     use MongoDB\Name,
         MongoDB\Groups,

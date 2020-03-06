@@ -9,10 +9,10 @@ use DateTime;
 /*
  * MongoDB storage for user
  */
-class MongoDBUser extends \photon\storage\mongodb\Object
+class MongoDBUser extends \photon\storage\mongodb\Obj
 {
     use MongoDB\Name,
-      MongoDB\Id;
+        MongoDB\Id;
 
     const collectionName = 'users';
     public $is_anonymous = false;

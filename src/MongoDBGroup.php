@@ -5,7 +5,7 @@ namespace photon\auth;
 /*
  * MongoDB storage for group
  */
-class MongoDBGroup extends \photon\storage\mongodb\Object
+class MongoDBGroup extends \photon\storage\mongodb\Obj
 {
     use MongoDB\Name,
         MongoDB\Users,
