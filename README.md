@@ -131,6 +131,11 @@ The class `MongoDBPrecondition` will load the ACL with name `adminPanel` and ens
     $acl->addUser($user);
     $acl->save();
 
+  You can ensure all ACL are created with the following code, users can be added later.
+
+    \photon\auth\MongoDBAcl::ensureExists(['admin', 'api', 'ntp']);
+
+
 ### Conditional rendering in templates
 
   You can use `MongoDBTemplateTag` in your template to test user ACL.
