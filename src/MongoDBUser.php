@@ -47,6 +47,14 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
     }
 
     /**
+     *  Cleanup the user password, he will not be able to login anymore
+     */
+    public function clearPassword()
+    {
+        $this->password = null;
+    }
+
+    /**
      *  Verify the user password
      *
      * @return bool true if the password match, false otherwize
