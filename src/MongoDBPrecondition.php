@@ -26,7 +26,7 @@ class MongoDBPrecondition
         } catch (\Exception $e) {
             return new \photon\http\response\Forbidden($request);
         }
-        
-          return new \photon\http\response\Forbidden($request);
+
+        return new \photon\http\response\Forbidden($request);
     }
 }
