@@ -7,28 +7,44 @@ use \photon\config\Container as Conf;
 class MongoDBBackend
 {
     private static $defaultConfig = array(
-        'user_class'    => '\photon\auth\MongoDBUser',
-        'user_id'       => 'login',
-        'user_password' => 'password',
+        'acl_class'           => MongoDBAcl::class,
+        'group_class'         => MongoDBGroup::class,
+        'user_class'          => MongoDBUser::class,
+        'precondition_class'  => MongoDBPrecondition::class,
+        'user_id'             => '_id',
+        'user_login'          => 'login',
+        'user_password'       => 'password',
+        'admin_precondition'  => 'usersAdministration',
     );
+
+
+    public static function getConfig()
+    {
+        $config = Conf::f('auth_mongodb', self::$defaultConfig);
+        $config = array_merge(self::$defaultConfig, $config);
+
+        return $config;
+    }
 
     /**
      *  Load the user from the database
      *
-     * @param $user_id The unique user id
+     * @param $login The unique user id
+     *
+     * @return object The user object,
+     *         false if the user do not exists
      */
-    public static function loadUser($user_id)
+    public static function loadUser($login)
     {
-        if ($user_id === null) {
+        if ($login === null) {
             return false;
         }
 
         try {
-            $user_id = trim($user_id);
-            $config = Conf::f('auth_mongodb', self::$defaultConfig);
-            $config = array_merge(self::$defaultConfig, $config);
+            $login = trim($login);
+            $config = self::getConfig();
             $class = $config['user_class'];
-            $user = new $class(array($config['user_id'] => $user_id));
+            $user = new $class(array($config['user_login'] => $login));
         } catch (\Exception $e) {
             return false;
         }
@@ -37,19 +53,17 @@ class MongoDBBackend
     }
 
     /**
-     *  Authenticate a existing user
+     *  Authenticate an existing user
      *
-     * @param $user_id The unique user id
      * @return object The user object,
      *         false if the user do not exists or the password is invalid
      */
     public static function authenticate($auth)
     {
-        $config = Conf::f('auth_mongodb', self::$defaultConfig);
-        $config = array_merge($config, self::$defaultConfig);
+        $config = self::getConfig();
 
         // Ensure login is provided
-        $key = $config['user_id'];
+        $key = $config['user_login'];
         if (isset($auth[$key]) === false) {
             return false;
         }
@@ -80,7 +94,7 @@ class MongoDBBackend
         if ($user->isExpired()) {
             return false;
         }
-        
+
         return $user;
     }
 }
