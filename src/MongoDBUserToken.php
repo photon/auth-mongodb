@@ -39,6 +39,11 @@ class MongoDBUserToken extends \photon\storage\mongodb\Obj
             array('name' => 1),
             array('unique' => true, 'background' => true)
         );
+
+        $collection->createIndex(
+            array('user' => 1),
+            array('background' => true)
+        );
     }
 
     protected function initObject()
