@@ -41,12 +41,18 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
      */
     public function setLogin($login)
     {
-        $this->login = $login;
+        $config = MongoDBBackend::getConfig();
+        $key = $config['user_login'];
+
+        $this->{$key} = $login;
     }
 
     public function getLogin()
     {
-        return $this->login;
+        $config = MongoDBBackend::getConfig();
+        $key = $config['user_login'];
+
+        return $this->{$key};
     }
 
     /**
