@@ -14,7 +14,7 @@ class MongoDBBackend
         'user_id'             => '_id',
         'user_login'          => 'login',
         'user_password'       => 'password',
-        'admin_precondition'  => 'usersAdministration',
+        'admin_precondition'  => 'admin-users',
     );
 
 

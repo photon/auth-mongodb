@@ -10,6 +10,7 @@ use DateTime;
  * MongoDB storage for user
  */
 class MongoDBUser extends \photon\storage\mongodb\Obj
+  implements \JsonSerializable
 {
     use MongoDB\Name,
         MongoDB\Id;
@@ -87,6 +88,7 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
     public function block()
     {
         $this->block = true;
+        $this->blockedSince = new \MongoDB\BSON\UTCDateTime((new DateTime)->getTimestamp() * 1000);
     }
 
     /**
@@ -95,6 +97,7 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
     public function unblock()
     {
         $this->block = false;
+        $this->blockedSince = null;
     }
 
     /**
@@ -107,6 +110,21 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
         }
 
         return false;
+    }
+
+    /**
+     *  Get the date when the user have been blocked
+     */
+    public function getBlockedSince($convert2iso=false)
+    {
+        if (isset($this->blockedSince) && $this->blockedSince !== null) {
+            if ($convert2iso) {
+              return $this->blockedSince->toDateTime()->format('c');
+            }
+            return $this->blockedSince->toDateTime();
+        }
+
+        return null;
     }
 
     /**
@@ -128,10 +146,13 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
     /**
      *  Get the current expiration date on the account
      */
-    public function getExpirationDate()
+    public function getExpirationDate($convert2iso=false)
     {
         if (isset($this->expiration) && $this->expiration !== null) {
-            return $this->expiration->toDateTime();
+          if ($convert2iso) {
+            return $this->expiration->toDateTime()->format('c');
+          }
+          return $this->expiration->toDateTime();
         }
 
         return null;
@@ -166,5 +187,18 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
         }
 
         return true;
+    }
+
+    public function jsonSerialize()
+    {
+      return array(
+        'id' => (string) $this->getId(),
+        'name' => $this->getName(),
+        'login' => $this->getLogin(),
+        'blocked' => $this->isBlocked(),
+        'blockedSince' => $this->getBlockedSince(true),
+        'expired' => $this->isExpired(),
+        'expiration' => $this->getExpirationDate(true),
+      );
     }
 }
