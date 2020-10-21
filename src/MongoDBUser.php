@@ -18,6 +18,24 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
     const collectionName = 'users';
     public $is_anonymous = false;
 
+    public static function createIndex()
+    {
+      $config = MongoDBBackend::getConfig();
+
+      $db = \photon\db\Connection::get();
+      $collection = $db->selectCollection(self::collectionName);
+
+      $collection->createIndex(
+          array('name' => 1),
+          array('background' => true)
+      );
+
+      $collection->createIndex(
+          array($config['user_login'] => 1),
+          array('unique' => true, 'background' => true)
+      );
+    }
+
     /**
      *  Set the user login
      */
