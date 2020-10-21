@@ -13,13 +13,16 @@ class MongoDBTemplateTag extends \photon\template\tag\Tag
 
     public function genStart()
     {
+        $config = MongoDBBackend::getConfig();
+        $class = $config['precondition_class'];
+        
         return '
       $access = false;
       if (is_array($_etag->name) === false) {
           $_etag->name = array($_etag->name);
       }
       foreach($_etag->name as $name) {
-          $rc = forward_static_call(array("\photon\auth\MongoDBPrecondition", $name), $t->_vars->request);
+          $rc = forward_static_call(array("' . $class . '", $name), $t->_vars->request);
           if ($rc === true) {
               $access = true;
               break;

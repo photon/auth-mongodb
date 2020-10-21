@@ -19,7 +19,9 @@ class MongoDBPrecondition
 
         // Load the ACL and verify
         try {
-            $acl = new MongoDBAcl(array('name' => $name));
+            $config = MongoDBBackend::getConfig();
+            $class = $config['acl_class'];
+            $acl = new $class(array('name' => $name));
             if ($acl->isAllow($request->user)) {
                 return true;
             }

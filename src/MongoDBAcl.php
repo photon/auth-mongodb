@@ -29,14 +29,17 @@ class MongoDBAcl extends \photon\storage\mongodb\Obj
      */
     public function isAllow(MongoDBUser $user)
     {
-      // Search in user list
+        // Search in user list
         if ($this->containsUser($user)) {
             return true;
         }
 
-      // Search in group list
+        // Search in group list
+        $config = MongoDBBackend::getConfig();
+        $class = $config['group_class'];
+
         foreach ($this->groups as $id) {
-            $group = new MongoDBGroup(array('_id' => $id));
+            $group = new $class(array('_id' => $id));
             if ($group->containsUser($user)) {
                 return true;
             }
@@ -50,11 +53,14 @@ class MongoDBAcl extends \photon\storage\mongodb\Obj
      */
     public static function ensureExists(array $names)
     {
+        $config = MongoDBBackend::getConfig();
+        $class = $config['acl_class'];
+
         foreach ($names as $name) {
             try {
-                $acl = new MongoDBAcl(array('name' => $name));
+                $acl = new $class(array('name' => $name));
             } catch (\Exception $e) {
-                $acl = new MongoDBAcl;
+                $acl = new $class;
                 $acl->setName($name);
                 $acl->save();
             }

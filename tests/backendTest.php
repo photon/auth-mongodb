@@ -41,34 +41,34 @@ class BackendTest extends \photon\test\TestCase
         $user->setPassword('strong');
         $user->save();
 
-      // Nominal
+        // Nominal
         $user2 = \photon\auth\MongoDBBackend::authenticate(array(
         'login' => 'jd@exemple.com',
         'password' => 'strong'
         ));
         $this->assertEquals($user->getId(), $user2->getId());
 
-      // Bad password
+        // Bad password
         $rc = \photon\auth\MongoDBBackend::authenticate(array(
         'login' => 'jd@exemple.com',
         'password' => 'strongeee'
         ));
         $this->assertEquals(false, $rc);
 
-      // Unknown user
+        // Unknown user
         $rc = \photon\auth\MongoDBBackend::authenticate(array(
         'login' => 'jd@exemple.come',
         'password' => 'strongeee'
         ));
         $this->assertEquals(false, $rc);
 
-      // No password
+        // No password
         $rc = \photon\auth\MongoDBBackend::authenticate(array(
         'login' => 'jd@exemple.com',
         ));
         $this->assertEquals(false, $rc);
 
-      // No login
+        // No login
         $rc = \photon\auth\MongoDBBackend::authenticate(array(
         'password' => 'strongeee'
         ));
@@ -82,14 +82,14 @@ class BackendTest extends \photon\test\TestCase
         $user->setPassword('strong');
         $user->save();
 
-      // Not blocked
+        // Not blocked
         $user2 = \photon\auth\MongoDBBackend::authenticate(array(
         'login' => 'jd@exemple.com',
         'password' => 'strong'
         ));
         $this->assertEquals($user->getId(), $user2->getId());
 
-      // Blocked
+        // Blocked
         $user->block();
         $user->save();
         $rc = \photon\auth\MongoDBBackend::authenticate(array(
@@ -106,14 +106,14 @@ class BackendTest extends \photon\test\TestCase
         $user->setPassword('strong');
         $user->save();
 
-      // Not blocked
+        // Not blocked
         $user2 = \photon\auth\MongoDBBackend::authenticate(array(
         'login' => 'jd@exemple.com',
         'password' => 'strong'
         ));
         $this->assertEquals($user->getId(), $user2->getId());
 
-      // Blocked
+        // Blocked
         $user->setExpirationDate(new DateTime('yesterday'));
         $user->save();
         $rc = \photon\auth\MongoDBBackend::authenticate(array(
