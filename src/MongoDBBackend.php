@@ -10,13 +10,13 @@ class MongoDBBackend
         'acl_class'           => MongoDBAcl::class,
         'group_class'         => MongoDBGroup::class,
         'user_class'          => MongoDBUser::class,
+        'token_class'         => MongoDBUserToken::class,
         'precondition_class'  => MongoDBPrecondition::class,
         'user_id'             => '_id',
         'user_login'          => 'login',
         'user_password'       => 'password',
         'admin_precondition'  => 'admin-users',
     );
-
 
     public static function getConfig()
     {

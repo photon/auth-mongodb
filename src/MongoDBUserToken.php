@@ -10,6 +10,7 @@ use DateTime;
  * MongoDB storage for user tokens
  */
 class MongoDBUserToken extends \photon\storage\mongodb\Obj
+  implements \JsonSerializable
 {
     use MongoDB\Name,
         MongoDB\Id;
@@ -73,10 +74,14 @@ class MongoDBUserToken extends \photon\storage\mongodb\Obj
     /**
      * Get the date of the last touch()
      */
-    public function getLastAccessDate()
+    public function getLastAccessDate($convert2iso=false)
     {
         if ($this->lastAccess === null) {
             return null;
+        }
+
+        if ($convert2iso) {
+          return $this->lastAccess->toDateTime()->format('c');
         }
 
         return $this->lastAccess->toDateTime();
@@ -85,8 +90,12 @@ class MongoDBUserToken extends \photon\storage\mongodb\Obj
     /**
      * Get the creation time of this metadata
      */
-    public function getCreationDate() : DateTime
+    public function getCreationDate($convert2iso=false)
     {
+        if ($convert2iso) {
+            return $this->ctm->toDateTime()->format('c');
+        }
+
         return $this->ctm->toDateTime();
     }
 
@@ -130,5 +139,17 @@ class MongoDBUserToken extends \photon\storage\mongodb\Obj
     public function isEnable() : bool
     {
         return $this->enable;
+    }
+
+    public function jsonSerialize()
+    {
+      return array(
+        'id' => (string) $this->getId(),
+        'name' => $this->getName(),
+        'enable' => $this->isEnable(),
+        'ctm' => $this->getCreationDate(true),
+        'otm' => $this->getLastAccessDate(true),
+        'count' => $this->getAccessCount(),
+      );
     }
 }
