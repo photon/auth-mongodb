@@ -6,6 +6,7 @@ namespace photon\auth;
  * MongoDB storage for group
  */
 class MongoDBGroup extends \photon\storage\mongodb\Obj
+  implements \JsonSerializable
 {
     use MongoDB\Name,
         MongoDB\Users,
@@ -28,5 +29,14 @@ class MongoDBGroup extends \photon\storage\mongodb\Obj
     {
         $this->name = 'Group unknown';
         $this->users = array();
+    }
+
+    public function jsonSerialize()
+    {
+      return array(
+        'id' => (string) $this->getId(),
+        'name' => $this->getName(),
+        'users' => $this->getUsers(),
+      );
     }
 }

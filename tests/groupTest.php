@@ -53,4 +53,20 @@ class GroupTest extends \photon\test\TestCase
         $this->assertEquals(false, $group->containsUser($user1));
         $this->assertEquals(true, $group->containsUser($user2));
     }
+
+    public function testJsonEncodeGroup()
+    {
+      $group = new \photon\auth\MongoDBGroup;
+      $group->setName('Linux users');
+      $group->save();
+
+      $json = json_encode($group);
+      $this->assertNotEquals(false, $json);
+
+      $info = json_decode($json, true);
+      $this->assertArrayHasKey('id', $info);
+      $this->assertArrayHasKey('name', $info);
+      $this->assertEquals('Linux users', $info['name']);
+      $this->assertArrayHasKey('users', $info);
+    }
 }

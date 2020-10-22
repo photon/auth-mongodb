@@ -50,4 +50,23 @@ trait Users
 
         $this->users = array_values($users);
     }
+
+      /**
+       *  Get the user list
+       */
+      public function getUsers($string=false)
+      {
+          if ($string) {
+            $users = (array) $this->users;
+
+            $ret = array();
+            foreach ($users as $user) {
+              $ret[] = (string) $user;
+            }
+
+            return $ret;
+          }
+
+          return $this->users;
+      }
 }
