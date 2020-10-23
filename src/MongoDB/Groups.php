@@ -50,4 +50,20 @@ trait Groups
 
         $this->groups = array_values($groups);
     }
+
+    /**
+     *  Get the user list
+     */
+    public function getGroups($string=false)
+    {
+      $groups = (array) $this->groups;
+
+      if ($string) {
+        $groups = array_map(function($i) {
+          return (string) $i;
+        }, $groups);
+      }
+
+      return $groups;
+    }
 }
