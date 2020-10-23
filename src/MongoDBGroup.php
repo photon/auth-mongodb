@@ -36,7 +36,7 @@ class MongoDBGroup extends \photon\storage\mongodb\Obj
       return array(
         'id' => (string) $this->getId(),
         'name' => $this->getName(),
-        'users' => $this->getUsers(),
+        'users' => $this->getUsers(true),
       );
     }
 }
