@@ -2,7 +2,6 @@
 
 namespace photon\auth;
 
-use photon\http\response\RedirectToLogin;
 use photon\http\Request as PhotonRequest;
 use DateTime;
 
