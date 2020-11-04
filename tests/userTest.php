@@ -3,17 +3,10 @@
 namespace tests;
 
 use DateTime;
+use photon\auth\MongoDBException;
 
-class UserTest extends \photon\test\TestCase
+class UserTest extends TestCase
 {
-    public function setup()
-    {
-        parent::setup();
-
-        $db = \photon\db\Connection::get('default');
-        $db->drop();
-    }
-
     public function testCreateUser()
     {
         $user = new \photon\auth\MongoDBUser;
@@ -47,7 +40,7 @@ class UserTest extends \photon\test\TestCase
 
     public function testEmptyPassword()
     {
-        $this->setExpectedException('\photon\auth\MongoDBException');
+        $this->expectException(MongoDBException::class);
 
         $user = new \photon\auth\MongoDBUser;
         $user->setPassword('');
@@ -55,7 +48,7 @@ class UserTest extends \photon\test\TestCase
 
     public function testNotStringPassword()
     {
-        $this->setExpectedException('\photon\auth\MongoDBException');
+        $this->expectException(MongoDBException::class);
 
         $user = new \photon\auth\MongoDBUser;
         $user->setPassword(12.3);

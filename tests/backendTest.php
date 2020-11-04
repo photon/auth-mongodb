@@ -4,16 +4,8 @@ namespace tests;
 
 use DateTime;
 
-class BackendTest extends \photon\test\TestCase
+class BackendTest extends TestCase
 {
-    public function setup()
-    {
-        parent::setup();
-
-        $db = \photon\db\Connection::get('default');
-        $db->drop();
-    }
-
     public function testUnknownUser()
     {
         $user = \photon\auth\MongoDBBackend::loadUser(null);

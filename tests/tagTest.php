@@ -2,16 +2,8 @@
 
 namespace tests;
 
-class TagTest extends \photon\test\TestCase
+class TagTest extends TestCase
 {
-    public function setup()
-    {
-        parent::setup();
-
-        $db = \photon\db\Connection::get('default');
-        $db->drop();
-    }
-
     public function testUserIsAllow()
     {
         $dispatcher = new \photon\core\Dispatcher;

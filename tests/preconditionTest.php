@@ -2,16 +2,8 @@
 
 namespace tests;
 
-class PreconditionTest extends \photon\test\TestCase
+class PreconditionTest extends TestCase
 {
-    public function setup()
-    {
-        parent::setup();
-
-        $db = \photon\db\Connection::get('default');
-        $db->drop();
-    }
-
     public function testUserIsAllow()
     {
         $dispatcher = new \photon\core\Dispatcher;

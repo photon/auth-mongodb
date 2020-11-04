@@ -2,16 +2,8 @@
 
 namespace tests;
 
-class GroupTest extends \photon\test\TestCase
+class GroupTest extends TestCase
 {
-    public function setup()
-    {
-        parent::setup();
-
-        $db = \photon\db\Connection::get('default');
-        $db->drop();
-    }
-
     public function testCreateGroup()
     {
       // Users

@@ -2,16 +2,8 @@
 
 namespace tests;
 
-class AclTest extends \photon\test\TestCase
+class AclTest extends TestCase
 {
-    public function setup()
-    {
-        parent::setup();
-
-        $db = \photon\db\Connection::get('default');
-        $db->drop();
-    }
-
     public function testBatchCreateAcl()
     {
         $name = array('cortex', 'minus');

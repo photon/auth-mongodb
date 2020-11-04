@@ -4,16 +4,8 @@ namespace tests;
 
 use DateTime;
 
-class UserTokensTest extends \photon\test\TestCase
+class UserTokensTest extends TestCase
 {
-    public function setup()
-    {
-        parent::setup();
-
-        $db = \photon\db\Connection::get('default');
-        $db->drop();
-    }
-
     public function testCreateToken()
     {
         $user = new \photon\auth\MongoDBUser;
