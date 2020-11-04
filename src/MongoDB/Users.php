@@ -54,14 +54,14 @@ trait Users
     /**
      *  Get the user list
      */
-    public function getUsers($string=false)
+    public function getUsers($string = false)
     {
         $users = (array) $this->users;
 
         if ($string) {
-          $users = array_map(function($i) {
-            return (string) $i;
-          }, $users);
+            $users = array_map(function ($i) {
+                return (string) $i;
+            }, $users);
         }
 
         return $users;

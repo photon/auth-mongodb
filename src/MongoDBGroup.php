@@ -5,8 +5,7 @@ namespace photon\auth;
 /*
  * MongoDB storage for group
  */
-class MongoDBGroup extends \photon\storage\mongodb\Obj
-  implements \JsonSerializable
+class MongoDBGroup extends \photon\storage\mongodb\Obj implements \JsonSerializable
 {
     use MongoDB\Name,
         MongoDB\Users,
@@ -16,13 +15,13 @@ class MongoDBGroup extends \photon\storage\mongodb\Obj
 
     public static function createIndex()
     {
-      $db = \photon\db\Connection::get();
-      $collection = $db->selectCollection(self::collectionName);
+        $db = \photon\db\Connection::get();
+        $collection = $db->selectCollection(self::collectionName);
 
-      $collection->createIndex(
-          array('name' => 1),
-          array('unique' => true, 'background' => true)
-      );
+        $collection->createIndex(
+            array('name' => 1),
+            array('unique' => true, 'background' => true)
+        );
     }
 
     protected function initObject()
@@ -33,10 +32,10 @@ class MongoDBGroup extends \photon\storage\mongodb\Obj
 
     public function jsonSerialize()
     {
-      return array(
+        return array(
         'id' => (string) $this->getId(),
         'name' => $this->getName(),
         'users' => $this->getUsers(true),
-      );
+        );
     }
 }

@@ -9,8 +9,7 @@ use DateTime;
 /*
  * MongoDB storage for user
  */
-class MongoDBUser extends \photon\storage\mongodb\Obj
-  implements \JsonSerializable
+class MongoDBUser extends \photon\storage\mongodb\Obj implements \JsonSerializable
 {
     use MongoDB\Name,
         MongoDB\Id;
@@ -20,20 +19,20 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
 
     public static function createIndex()
     {
-      $config = MongoDBBackend::getConfig();
+        $config = MongoDBBackend::getConfig();
 
-      $db = \photon\db\Connection::get();
-      $collection = $db->selectCollection(self::collectionName);
+        $db = \photon\db\Connection::get();
+        $collection = $db->selectCollection(self::collectionName);
 
-      $collection->createIndex(
-          array('name' => 1),
-          array('background' => true)
-      );
+        $collection->createIndex(
+            array('name' => 1),
+            array('background' => true)
+        );
 
-      $collection->createIndex(
-          array($config['user_login'] => 1),
-          array('unique' => true, 'background' => true)
-      );
+        $collection->createIndex(
+            array($config['user_login'] => 1),
+            array('unique' => true, 'background' => true)
+        );
     }
 
     /**
@@ -139,11 +138,11 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
     /**
      *  Get the date when the user have been blocked
      */
-    public function getBlockedSince($convert2iso=false)
+    public function getBlockedSince($convert2iso = false)
     {
         if (isset($this->blockedSince) && $this->blockedSince !== null) {
             if ($convert2iso) {
-              return $this->blockedSince->toDateTime()->format('c');
+                return $this->blockedSince->toDateTime()->format('c');
             }
             return $this->blockedSince->toDateTime();
         }
@@ -170,13 +169,13 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
     /**
      *  Get the current expiration date on the account
      */
-    public function getExpirationDate($convert2iso=false)
+    public function getExpirationDate($convert2iso = false)
     {
         if (isset($this->expiration) && $this->expiration !== null) {
-          if ($convert2iso) {
-            return $this->expiration->toDateTime()->format('c');
-          }
-          return $this->expiration->toDateTime();
+            if ($convert2iso) {
+                return $this->expiration->toDateTime()->format('c');
+            }
+            return $this->expiration->toDateTime();
         }
 
         return null;
@@ -215,7 +214,7 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
 
     public function jsonSerialize()
     {
-      return array(
+        return array(
         'id' => (string) $this->getId(),
         'name' => $this->getName(),
         'login' => $this->getLogin(),
@@ -223,6 +222,6 @@ class MongoDBUser extends \photon\storage\mongodb\Obj
         'blockedSince' => $this->getBlockedSince(true),
         'expired' => $this->isExpired(),
         'expiration' => $this->getExpirationDate(true),
-      );
+        );
     }
 }

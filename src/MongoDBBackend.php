@@ -28,11 +28,11 @@ class MongoDBBackend
 
     public static function createIndex()
     {
-      $config = self::getConfig();
+        $config = self::getConfig();
 
-      $config['acl_class']::createIndex();
-      $config['group_class']::createIndex();
-      $config['user_class']::createIndex();
+        $config['acl_class']::createIndex();
+        $config['group_class']::createIndex();
+        $config['user_class']::createIndex();
     }
 
     /**

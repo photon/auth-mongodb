@@ -54,16 +54,16 @@ trait Groups
     /**
      *  Get the user list
      */
-    public function getGroups($string=false)
+    public function getGroups($string = false)
     {
-      $groups = (array) $this->groups;
+        $groups = (array) $this->groups;
 
-      if ($string) {
-        $groups = array_map(function($i) {
-          return (string) $i;
-        }, $groups);
-      }
+        if ($string) {
+            $groups = array_map(function ($i) {
+                return (string) $i;
+            }, $groups);
+        }
 
-      return $groups;
+        return $groups;
     }
 }

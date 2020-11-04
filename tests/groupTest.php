@@ -48,17 +48,17 @@ class GroupTest extends TestCase
 
     public function testJsonEncodeGroup()
     {
-      $group = new \photon\auth\MongoDBGroup;
-      $group->setName('Linux users');
-      $group->save();
+        $group = new \photon\auth\MongoDBGroup;
+        $group->setName('Linux users');
+        $group->save();
 
-      $json = json_encode($group);
-      $this->assertNotEquals(false, $json);
+        $json = json_encode($group);
+        $this->assertNotEquals(false, $json);
 
-      $info = json_decode($json, true);
-      $this->assertArrayHasKey('id', $info);
-      $this->assertArrayHasKey('name', $info);
-      $this->assertEquals('Linux users', $info['name']);
-      $this->assertArrayHasKey('users', $info);
+        $info = json_decode($json, true);
+        $this->assertArrayHasKey('id', $info);
+        $this->assertArrayHasKey('name', $info);
+        $this->assertEquals('Linux users', $info['name']);
+        $this->assertArrayHasKey('users', $info);
     }
 }
